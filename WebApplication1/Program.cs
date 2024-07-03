@@ -1,0 +1,32 @@
+using BusWrapper.Publishers;
+using Core.Interfaces.Publishers;
+using WebApi.Extensions;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddMassTransit(builder.Configuration);
+builder.Services.AddScoped<IPublishEndpointWrapper, PublishEndpointWrapper>();
+builder.Services.AddScoped<IPublishSchedulerWrapper, PublishSchedulerWrapper>();
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+	app.UseSwagger();
+	app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
