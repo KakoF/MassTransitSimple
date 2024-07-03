@@ -3,7 +3,7 @@ using Core.Events;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Controllers
+namespace WebApi.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
