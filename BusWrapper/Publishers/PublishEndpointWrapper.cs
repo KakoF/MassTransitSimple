@@ -11,7 +11,22 @@ namespace BusWrapper.Publishers
         {
 			_bus = bus;
         }
-        public async Task PublishAsync<T>(T user)
+        public async Task PublishFanoutAsync<T>(T user)
+		{
+			await _bus.Publish(user!);
+		}
+
+		public async Task PublishDirectAsync<T>(T user)
+		{
+			await _bus.Publish(user!);
+		}
+
+		public async Task PublishHeadersAsync<T>(T user)
+		{
+			await _bus.Publish(user!);
+		}
+
+		public async Task PublishTopicAsync<T>(T user)
 		{
 			await _bus.Publish(user!);
 		}

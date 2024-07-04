@@ -1,12 +1,12 @@
 ﻿
 namespace Core.Events
 {
-	public class UserEvent
+	public class UserTopicEvent
 	{
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
 
-        public UserEvent(string name)
+        public UserTopicEvent(string name)
         {
             Id = Guid.NewGuid();
             Name = name;

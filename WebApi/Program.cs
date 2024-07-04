@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMassTransit(builder.Configuration);
+builder.Services.AddMassTransitRabbitMq(builder.Configuration);
 builder.Services.AddScoped<IPublishEndpointWrapper, PublishEndpointWrapper>();
 builder.Services.AddScoped<IPublishSchedulerWrapper, PublishSchedulerWrapper>();
 var app = builder.Build();

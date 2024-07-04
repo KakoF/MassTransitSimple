@@ -2,6 +2,9 @@
 {
 	public interface IPublishEndpointWrapper
 	{
-		public Task PublishAsync<T>(T message);
+		public Task PublishFanoutAsync<T>(T message);
+		public Task PublishDirectAsync<T>(T message);
+		public Task PublishTopicAsync<T>(T message);
+		public Task PublishHeadersAsync<T>(T message);
 	}
 }
