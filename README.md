@@ -11,6 +11,19 @@ Framework Open Source de abstração para utilização de message broker.
 <br>Monitoramento e log integrado
 
 
+### Criando 2 Exchanges
+O conceito é estamos encaminhando dois tipos de mensagens via MassTransit, eventos e comandos
+- Eventos são multicast para potencialmente vários consumidores
+- Comandos para um único consumidor. Cada consumidor tem sua própria fila de entrada para a qual as mensagens são roteadas por meio de trocas.
+
+Para cada tipo de mensagem, o MassTransit por padrão cria uma troca de fanout com base no tipo de mensagem e uma troca de fanout e uma fila para cada consumidor desta mensagem.
+
+Exemplo:
+Isso faz todo o sentido para eventos, pois você está publicando eventos usando o tipo de evento (sem ter ideia de quem ou se alguém irá consumi-lo); portanto, no seu caso, você publica na troca OrderDetails. A MassTransit tem que garantir que todos os consumidores deste evento estejam vinculados a esta troca. Nesse caso, você tem um consumidor, OrderConsumer. O MassTransit por padrão gera o nome da central do consumidor com base no nome do tipo deste consumidor, removendo o sufixo Consumer. A fila de entrada real para este consumidor está vinculada a esta troca. Então você obtém algo assim:
+
+EventTypeExchange => ConsumerExchange => ConsumerQueue
+
+
 ## RabbitMq:
 
 https://www.youtube.com/watch?v=oA4xrvPnPYc&t=210s
