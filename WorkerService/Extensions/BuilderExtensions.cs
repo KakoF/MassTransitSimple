@@ -13,7 +13,7 @@ namespace WorkerService.Extensions
 				busConfigurator.SetSnakeCaseEndpointNameFormatter();
 				busConfigurator.AddConsumer<UserFanoutEventConsumer>();
 				//busConfigurator.AddConsumer<UserTopicEventConsumer>();
-				//busConfigurator.AddConsumer<UserDirectEventConsumer>();
+				busConfigurator.AddConsumer<UserDirectEventConsumer>();
 				//busConfigurator.AddConsumer<UserHeadersEventConsumer>();
 				busConfigurator.UsingRabbitMq((ctx, cfg) =>
 				{
@@ -21,67 +21,37 @@ namespace WorkerService.Extensions
 					cfg.ConfigureEndpoints(ctx, new SnakeCaseEndpointNameFormatter(false));
 					cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
 
-
-					/*cfg.ReceiveEndpoint("user_fanout_event", x =>
-					{
-						//x.Consumer<UserFanoutEventConsumer>(ctx);
-						x.Bind("Core.Events:UserFanoutEvent", s =>
-						{
-							s.ExchangeType = ExchangeType.Fanout;
-						});
-					});*/
-
-
+					#region Direct Event
 					cfg.ReceiveEndpoint("user_direct_event_default", x =>
 					{
 						x.ConfigureConsumeTopology = false;
-
-						x.Consumer<UserDirectEventConsumer>(ctx);
-
 						x.Bind("user_direct_event", s =>
 						{
-							s.RoutingKey = "Default";
 							s.ExchangeType = ExchangeType.Direct;
+							s.RoutingKey = "Default";
 						});
+						x.Consumer<UserDirectEventConsumer>(ctx);
 					});
 
 					cfg.ReceiveEndpoint("user_direct_event_admin", x =>
 					{
 						x.ConfigureConsumeTopology = false;
-
-						x.Consumer<UserDirectEventConsumer>(ctx);
-
 						x.Bind("user_direct_event", s =>
 						{
 							s.RoutingKey = "Admin";
 							s.ExchangeType = ExchangeType.Direct;
 						});
-					});
-					/*cfg.ReceiveEndpoint("guest", x =>
-					{
-						x.ConfigureConsumeTopology = false;
-
 						x.Consumer<UserDirectEventConsumer>(ctx);
-
-						x.Bind("user_direct_event", s =>
-						{
-							s.RoutingKey = "guest";
-							s.ExchangeType = ExchangeType.Direct;
-						});
 					});
+					#endregion Direct Event
 
-					cfg.ReceiveEndpoint("admin", x =>
-					{
-						x.ConfigureConsumeTopology = false;
+					#region Topic Event
 
-						x.Consumer<UserDirectEventConsumer>(ctx);
+					#endregion Topic Event
 
-						x.Bind("user_direct_event", s =>
-						{
-							s.RoutingKey = "admin";
-							s.ExchangeType = ExchangeType.Direct;
-						});
-					});*/
+					#region Headers Event
+
+					#endregion Headers Event
 				});
 
 			});

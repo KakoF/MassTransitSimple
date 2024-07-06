@@ -1,0 +1,38 @@
+{
+    "messageId": "181c0000-6393-3630-36a4-08daf4e7c6da",
+    "requestId": "ef375b18-69ee-4a9e-b5ec-44ee1177a27e",
+    "correlationId": null,
+    "conversationId": null,
+    "initiatorId": null,
+    "sourceAddress": "rabbitmq://localhost/source",
+    "destinationAddress": "rabbitmq://localhost/destination",
+    "responseAddress": "rabbitmq://localhost/response",
+    "faultAddress": "rabbitmq://localhost/fault",
+    "messageType": [
+        "urn:message:user_direct_event"
+    ],
+    "message": {
+   "id":"3fa85f64-5717-4562-b3fc-2c963f66afa6",
+   "eventDirectType":0,
+   "type":{
+      "id":0,
+      "name":"Default"
+   },
+   "name":"string"
+},
+    "expirationTime": null,
+    "sentTime": "2023-01-12T21:55:53.715882Z",
+    "headers": {
+        "Application-Header": "SomeValue"
+    },
+    "host": {
+        "machineName": "MyComputer",
+        "processName": "dotnet",
+        "processId": 427,
+        "assembly": "TestProject",
+        "assemblyVersion": "2.11.1.93",
+        "frameworkVersion": "6.0.7",
+        "massTransitVersion": "8.0.10.0",
+        "operatingSystemVersion": "Unix 12.6.2"
+    }
+}

@@ -18,10 +18,11 @@ namespace WebApi.Extensions
 					cfg.UseDelayedMessageScheduler();
 					cfg.ConfigureEndpoints(ctx, new SnakeCaseEndpointNameFormatter(false));
 
+
+					#region Direct Event
 					cfg.Send<UserDirectEvent>(x =>
 					{
-						//x.UseCorrelationId(context => context.Id);
-						x.UseRoutingKeyFormatter(context => nameof(context.Message.Type.Name));
+						x.UseRoutingKeyFormatter(context => context.Message.Type.Name);
 					});
 					cfg.Message<UserDirectEvent>(x => x.SetEntityName("user_direct_event"));
 					cfg.Publish<UserDirectEvent>(x =>
@@ -31,7 +32,9 @@ namespace WebApi.Extensions
 						x.ExchangeType = ExchangeType.Direct; // default, allows any valid exchange type
 						
 					});
+					#endregion Direct Event
 
+					#region Topic Event
 					cfg.Publish<UserTopicEvent>(x =>
 					{
 						x.Durable = true; // default: true
@@ -39,14 +42,16 @@ namespace WebApi.Extensions
 						x.ExchangeType = ExchangeType.Topic; // default, allows any valid exchange type
 
 					});
-					
+					#endregion Topic Event
+
+					#region Headers Event
 					cfg.Publish<UserHeadersEvent>(x =>
 					{
 						x.Durable = true; // default: true
 						x.AutoDelete = false; // default: false
 						x.ExchangeType = ExchangeType.Headers; // default, allows any valid exchange type
 					});
-
+					#endregion Headers Event
 				});
 
 			});
