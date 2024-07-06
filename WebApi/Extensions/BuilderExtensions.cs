@@ -17,21 +17,19 @@ namespace WebApi.Extensions
 					cfg.Host(configuration.GetConnectionString("RabbitMq"));
 					cfg.UseDelayedMessageScheduler();
 					cfg.ConfigureEndpoints(ctx, new SnakeCaseEndpointNameFormatter(false));
-					cfg.ConfigureEndpoints(ctx);
 
+					cfg.Send<UserDirectEvent>(x =>
+					{
+						//x.UseCorrelationId(context => context.Id);
+						x.UseRoutingKeyFormatter(context => nameof(context.Message.Type.Name));
+					});
+					cfg.Message<UserDirectEvent>(x => x.SetEntityName("user_direct_event"));
 					cfg.Publish<UserDirectEvent>(x =>
 					{
 						x.Durable = true; // default: true
 						x.AutoDelete = false; // default: false
 						x.ExchangeType = ExchangeType.Direct; // default, allows any valid exchange type
-						cfg.Send<UserDirectEvent>(x =>
-						{
-							// use customerType for the routing key
-							x.UseRoutingKeyFormatter(context => nameof(context.Message.Type));
-							// multiple conventions can be set, in this case also CorrelationId
-							// x.UseCorrelationId(context => context.Message.TransactionId);
-						});
-
+						
 					});
 
 					cfg.Publish<UserTopicEvent>(x =>

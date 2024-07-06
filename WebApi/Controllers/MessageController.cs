@@ -35,7 +35,7 @@ namespace WebApi.Controllers
 		public async Task<IActionResult> PublishDirectUserAsync(UserDirectEvent user)
 		{
 
-			await _messagePublish.PublishFanoutAsync(user);
+			await _messagePublish.PublishDirectAsync(user);
 			_logger.LogInformation("Message Published");
 			return Ok();
 		}

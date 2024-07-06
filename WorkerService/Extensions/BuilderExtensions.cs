@@ -1,5 +1,4 @@
-﻿using Core.Events;
-using MassTransit;
+﻿using MassTransit;
 using RabbitMQ.Client;
 
 using WorkerService.Workers;
@@ -12,7 +11,7 @@ namespace WorkerService.Extensions
 			services.AddMassTransit(busConfigurator =>
 			{
 				busConfigurator.SetSnakeCaseEndpointNameFormatter();
-				//busConfigurator.AddConsumer<UserFanoutEventConsumer>();
+				busConfigurator.AddConsumer<UserFanoutEventConsumer>();
 				//busConfigurator.AddConsumer<UserTopicEventConsumer>();
 				//busConfigurator.AddConsumer<UserDirectEventConsumer>();
 				//busConfigurator.AddConsumer<UserHeadersEventConsumer>();
@@ -23,30 +22,41 @@ namespace WorkerService.Extensions
 					cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
 
 
-					cfg.ReceiveEndpoint("user_fanout_event", x =>
+					/*cfg.ReceiveEndpoint("user_fanout_event", x =>
 					{
 						//x.Consumer<UserFanoutEventConsumer>(ctx);
 						x.Bind("Core.Events:UserFanoutEvent", s =>
 						{
 							s.ExchangeType = ExchangeType.Fanout;
 						});
-					});
+					});*/
 
 
-					cfg.ReceiveEndpoint("user_direct_event", x =>
+					cfg.ReceiveEndpoint("user_direct_event_default", x =>
 					{
 						x.ConfigureConsumeTopology = false;
-						x.ExchangeType = ExchangeType.Direct;
 
-						//x.Consumer<UserDirectEventConsumer>(ctx);
+						x.Consumer<UserDirectEventConsumer>(ctx);
 
-						x.Bind("Core.Events:UserDirectEvent", s =>
+						x.Bind("user_direct_event", s =>
 						{
-							s.RoutingKey = "default";
-							x.ExchangeType = ExchangeType.Direct;
+							s.RoutingKey = "Default";
+							s.ExchangeType = ExchangeType.Direct;
 						});
 					});
 
+					cfg.ReceiveEndpoint("user_direct_event_admin", x =>
+					{
+						x.ConfigureConsumeTopology = false;
+
+						x.Consumer<UserDirectEventConsumer>(ctx);
+
+						x.Bind("user_direct_event", s =>
+						{
+							s.RoutingKey = "Admin";
+							s.ExchangeType = ExchangeType.Direct;
+						});
+					});
 					/*cfg.ReceiveEndpoint("guest", x =>
 					{
 						x.ConfigureConsumeTopology = false;
@@ -75,6 +85,7 @@ namespace WorkerService.Extensions
 				});
 
 			});
+
 		}
 		public static void AddMassTransitKafka(this IServiceCollection services, IConfiguration configuration)
 		{
