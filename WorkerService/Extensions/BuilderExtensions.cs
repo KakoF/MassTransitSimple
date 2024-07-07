@@ -12,7 +12,7 @@ namespace WorkerService.Extensions
 			{
 				busConfigurator.SetSnakeCaseEndpointNameFormatter();
 				busConfigurator.AddConsumer<UserFanoutEventConsumer>();
-				busConfigurator.AddConsumer<UserTopicEventConsumer>();
+				//busConfigurator.AddConsumer<UserTopicEventConsumer>();
 				busConfigurator.AddConsumer<UserDirectEventConsumer>();
 				//busConfigurator.AddConsumer<UserHeadersEventConsumer>();
 				busConfigurator.UsingRabbitMq((ctx, cfg) =>
@@ -22,12 +22,6 @@ namespace WorkerService.Extensions
 					cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
 
 					#region Direct Event
-
-					cfg.ReceiveEndpoint("user_direct_event", x =>
-					{
-						x.ConfigureConsumeTopology = false;
-						x.ExchangeType = ExchangeType.Direct;
-					});
 
 					cfg.ReceiveEndpoint("user_direct_event_default", x =>
 					{
