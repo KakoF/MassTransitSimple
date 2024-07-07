@@ -45,7 +45,7 @@ namespace WebApi.Controllers
 		public async Task<IActionResult> PublishTopicUserAsync(UserTopicEvent user)
 		{
 
-			await _messagePublish.PublishFanoutAsync(user);
+			await _messagePublish.PublishTopicAsync(user);
 			_logger.LogInformation("Message Published");
 			return Ok();
 		}

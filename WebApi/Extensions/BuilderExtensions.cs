@@ -34,24 +34,6 @@ namespace WebApi.Extensions
 					});
 					#endregion Direct Event
 
-					#region Topic Event
-					cfg.Publish<UserTopicEvent>(x =>
-					{
-						x.Durable = true; // default: true
-						x.AutoDelete = false; // default: false
-						x.ExchangeType = ExchangeType.Topic; // default, allows any valid exchange type
-
-					});
-					#endregion Topic Event
-
-					#region Headers Event
-					cfg.Publish<UserHeadersEvent>(x =>
-					{
-						x.Durable = true; // default: true
-						x.AutoDelete = false; // default: false
-						x.ExchangeType = ExchangeType.Headers; // default, allows any valid exchange type
-					});
-					#endregion Headers Event
 				});
 
 			});

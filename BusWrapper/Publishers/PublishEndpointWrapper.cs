@@ -22,14 +22,12 @@ namespace BusWrapper.Publishers
 		{
 			await _bus.Publish(user, x => x.SetRoutingKey(user.Type.Name));
 		}
-
-
-		public async Task PublishHeadersAsync<T>(T user)
+		public async Task PublishTopicAsync(UserTopicEvent user)
 		{
-			await _bus.Publish(user!);
+			await _bus.Publish(user, x => x.SetRoutingKey(user.Event));
 		}
 
-		public async Task PublishTopicAsync<T>(T user)
+		public async Task PublishHeadersAsync<T>(T user)
 		{
 			await _bus.Publish(user!);
 		}

@@ -6,7 +6,7 @@ namespace Core.Interfaces.Publishers
 	{
 		public Task PublishFanoutAsync<T>(T message);
 		public Task PublishDirectAsync(UserDirectEvent user);
-		public Task PublishTopicAsync<T>(T message);
+		public Task PublishTopicAsync(UserTopicEvent user);
 		public Task PublishHeadersAsync<T>(T message);
 	}
 }

@@ -36,3 +36,74 @@
         "operatingSystemVersion": "Unix 12.6.2"
     }
 }
+
+
+
+
+
+
+
+
+{
+
+  "messageId": "dc310000-f67f-88d7-f3b9-08dc9dfc1e4d",
+
+  "requestId": null,
+
+  "correlationId": null,
+
+  "conversationId": "dc310000-f67f-88d7-f51c-08dc9dfc1e4d",
+
+  "initiatorId": null,
+
+  "sourceAddress": "rabbitmq://localhost/KAKO_WebApi_bus_5oaoyy8sx6rpx9ctbdqj56aygn?temporary=true",
+
+  "destinationAddress": "rabbitmq://localhost/user_topic_event?type=topic",
+
+  "responseAddress": null,
+
+  "faultAddress": null,
+
+  "messageType": [
+
+    "urn:message:Core.Events:UserTopicEvent"
+
+  ],
+
+  "message": {
+
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+
+    "name": "string",
+
+    "operationType": 0
+
+  },
+
+  "expirationTime": null,
+
+  "sentTime": "2024-07-06T20:42:14.5512377Z",
+
+  "headers": {},
+
+  "host": {
+
+    "machineName": "KAKO",
+
+    "processName": "WebApi",
+
+    "processId": 12764,
+
+    "assembly": "WebApi",
+
+    "assemblyVersion": "1.0.0.0",
+
+    "frameworkVersion": "8.0.6",
+
+    "massTransitVersion": "8.2.3.0",
+
+    "operatingSystemVersion": "Microsoft Windows NT 10.0.19045.0"
+
+  }
+
+}
